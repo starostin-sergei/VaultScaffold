@@ -1,0 +1,9 @@
+{
+  "id": "hv-sidenav",
+  "name": "HV Sidenav",
+  "version": "1.0.0",
+  "minAppVersion": "1.7.2",
+  "description": "Persistent left sidenav + topbar for the Hub Vault, visible across all notes.",
+  "author": "hub-scaffold contributors",
+  "isDesktopOnly": true
+}

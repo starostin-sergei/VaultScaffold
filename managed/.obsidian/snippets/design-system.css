@@ -1,0 +1,114 @@
+/* Hub Vault — Design System Tokens
+   Aesthetic: Faded Ink (palette L)
+   Reference: design-system.md
+   Applies vault-wide. Dashboard-specific grid/card layout stays in hv-dashboard.css (opt-in via cssclasses: hv-dashboard).
+*/
+
+:root {
+
+  /* ── Base surfaces ──────────────────────────────────────────── */
+  --color-bg:          #18161A;
+  --color-surf-1:      #221F25;
+  --color-surf-2:      #2C2830;
+  --color-border:      #4A4550;
+  --color-border-dim:  #3A3540;
+
+  /* ── Text ───────────────────────────────────────────────────── */
+  --color-text:        #D8D3DC;
+  --color-muted:       #8E8898;
+  --color-faint:       #5A5560;
+
+  /* ── Section accent colors ──────────────────────────────────── */
+  --color-accent:      #C17F74;   /* Home / primary action */
+  --color-projects:    #7EA8A0;   /* Projects */
+  --color-journal:     #B8A86E;   /* Journal */
+  --color-ideas:       #9A8FBF;   /* Ideas */
+  --color-resources:   #A08888;   /* Resources */
+
+  /* ── Section dim tints (12% opacity backgrounds) ───────────── */
+  --color-accent-dim:     rgba(193, 127, 116, 0.12);
+  --color-projects-dim:   rgba(126, 168, 160, 0.12);
+  --color-journal-dim:    rgba(184, 168, 110, 0.12);
+  --color-ideas-dim:      rgba(154, 143, 191, 0.12);
+  --color-resources-dim:  rgba(160, 136, 136, 0.12);
+
+  /* ── Section glow tints (25% opacity — focus rings, glows) ─── */
+  --color-accent-glow:    rgba(193, 127, 116, 0.25);
+  --color-projects-glow:  rgba(126, 168, 160, 0.25);
+  --color-journal-glow:   rgba(184, 168, 110, 0.25);
+  --color-ideas-glow:     rgba(154, 143, 191, 0.25);
+  --color-resources-glow: rgba(160, 136, 136, 0.25);
+
+  /* ── Semantic colors ────────────────────────────────────────── */
+  --color-success:     #7EA8A0;   /* = --color-projects */
+  --color-warning:     #B8A86E;   /* = --color-journal  */
+  --color-danger:      #C17F74;   /* = --color-accent   */
+
+  /* ── Typography ─────────────────────────────────────────────── */
+  --font-sans:   'Inter', system-ui, -apple-system, sans-serif;
+
+  --text-xs:     0.65rem;    /* ~10px — caps labels, badges */
+  --text-sm:     0.75rem;    /* 12px  — metadata, timestamps */
+  --text-base:   0.82rem;    /* ~13px — nav items, card body */
+  --text-md:     0.9rem;     /* ~14px — content titles */
+  --text-lg:     1rem;       /* 16px  — section headings */
+  --text-xl:     1.2rem;     /* ~19px — page title */
+  --text-stat:   1.7rem;     /* ~27px — stat values */
+
+  /* ── Spacing (4px base unit) ─────────────────────────────────── */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+
+  /* ── Layout constants ────────────────────────────────────────── */
+  --sidebar-width:       220px;
+  --topbar-height:       52px;
+  --card-padding:        1rem 1.1rem;
+  --main-padding:        1.5rem;
+  --grid-gap:            1rem;
+
+  /* ── Border radius ───────────────────────────────────────────── */
+  --radius:     10px;
+  --radius-sm:  6px;
+  --radius-xs:  4px;
+
+}
+
+/* ── Base element rules — applies tokens vault-wide ────────────── */
+.markdown-source-view,
+.markdown-preview-view {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.markdown-preview-view h1,
+.markdown-preview-view h2,
+.markdown-preview-view h3,
+.markdown-preview-view h4,
+.markdown-preview-view h5,
+.markdown-preview-view h6,
+.markdown-source-view h1,
+.markdown-source-view h2,
+.markdown-source-view h3,
+.markdown-source-view h4,
+.markdown-source-view h5,
+.markdown-source-view h6 {
+  color: var(--color-text);
+}
+
+.markdown-preview-view a,
+.markdown-source-view a {
+  color: var(--color-accent);
+}
+
+.markdown-preview-view blockquote {
+  border-left-color: var(--color-border);
+  color: var(--color-muted);
+}

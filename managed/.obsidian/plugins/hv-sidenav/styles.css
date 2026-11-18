@@ -1,0 +1,335 @@
+/* HV Sidenav — persistent left sidebar view (Faded Ink aesthetic) */
+
+/* Disable manual drag-resize of the sidebar/content boundary — width is
+   controlled entirely by the plugin's own content-width collapse logic
+   (main.js), not by the user dragging Obsidian's native splitter. */
+.mod-left-split > .workspace-leaf-resize-handle {
+  display: none;
+}
+
+.hv-sidenav-root {
+  --color-bg:            #221F25;
+  --color-surf-2:        #2C2830;
+  --color-border:        #4A4550;
+  --color-border-dim:    #3A3540;
+  --color-text:          #D8D3DC;
+  --color-muted:         #8E8898;
+  --color-faint:         #5A5560;
+  --color-accent:        #C17F74;
+  --color-accent-dim:    rgba(193, 127, 116, 0.12);
+  --color-projects:      #7EA8A0;
+  --color-journal:       #B8A86E;
+  --color-ideas:         #9A8FBF;
+  --color-resources:     #A08888;
+  background: var(--color-bg);
+  color: var(--color-text);
+  height: 100%;
+  padding: 0.75rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.8rem;
+}
+
+/* ── Nav list ───────────────────────────────────────────────────── */
+.hv-nav-section-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-faint);
+  padding: 0.7rem 0.9rem 0.3rem;
+}
+.hv-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0.5rem;
+  padding: 0.45rem 0.5rem;
+  border-radius: 6px;
+  color: var(--color-muted);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.hv-nav-item:hover {
+  background: var(--color-surf-2);
+  color: var(--color-text);
+}
+.hv-nav-item.active {
+  background: var(--color-accent-dim);
+  color: var(--color-accent);
+}
+.hv-nav-item svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+.hv-nav-item.active svg { opacity: 1; }
+/* Section-colored icons (inline color set in main.js) read at full strength
+   in every state, matching the always-tinted Recent card row icons. */
+.hv-nav-icon {
+  display: flex;
+  flex-shrink: 0;
+}
+.hv-nav-item .hv-nav-icon svg { opacity: 1; }
+.hv-nav-label { flex: 1; min-width: 0; }
+
+/* ── Per-project terminal button ────────────────────────────────────
+   Only rendered on entries with a folderPath (real project rows).
+   Hidden until the row is hovered so the nav doesn't look cluttered
+   with icons at rest. */
+.hv-nav-term-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  color: var(--color-faint);
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s, color 0.15s;
+}
+.hv-nav-term-btn svg {
+  width: 13px;
+  height: 13px;
+}
+.hv-nav-item:hover .hv-nav-term-btn {
+  opacity: 1;
+}
+.hv-nav-term-btn:hover {
+  background: var(--color-border);
+  color: var(--color-accent);
+}
+
+/* ── Collapsible group (e.g. HoHW folder) ──────────────────────────
+   Group header looks like a regular nav item but toggles its children
+   instead of navigating; children indent under it, render smaller/dimmer
+   than the header to read as subordinate content rather than peers, and
+   hide when the group's "is-open" class is removed. */
+.hv-nav-group-header {
+  cursor: pointer;
+  font-weight: 600;
+}
+.hv-nav-chevron {
+  display: flex;
+  flex-shrink: 0;
+  width: 9px;
+  height: 9px;
+  color: var(--color-faint);
+  opacity: 1;
+  transition: transform 0.15s;
+}
+.hv-nav-chevron svg { width: 9px; height: 9px; stroke-width: 3; }
+.hv-nav-group.is-open > .hv-nav-group-header .hv-nav-chevron {
+  transform: rotate(90deg);
+}
+.hv-nav-group-children {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+.hv-nav-group:not(.is-open) .hv-nav-group-children {
+  display: none;
+}
+.hv-nav-item-child {
+  margin-left: 1.4rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  font-size: 0.92em;
+  font-weight: 400;
+  color: var(--color-muted);
+}
+.hv-nav-item-child:hover {
+  color: var(--color-text);
+}
+.hv-nav-item-child.active {
+  color: var(--color-accent);
+}
+.hv-nav-item-child svg {
+  width: 13px;
+  height: 13px;
+  opacity: 0.75;
+}
+
+/* ── Collapsed icon rail ────────────────────────────────────────────
+   Width is measured via WorkspaceLeaf content resize in main.js, which
+   toggles this class. Narrow the pane -> icon-only rail. */
+.mod-left-split {
+  transition: width 0.22s ease;
+}
+.mod-left-split:has(.hv-sidenav-root.is-collapsed) {
+  width: 32px !important;
+}
+.hv-sidenav-root.is-collapsed {
+  overflow: hidden;
+}
+.hv-sidenav-root.is-collapsed .hv-nav-section-label,
+.hv-sidenav-root.is-collapsed .hv-nav-label {
+  display: none;
+}
+.hv-sidenav-root.is-collapsed .hv-nav-item {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+.hv-sidenav-root.is-collapsed .hv-nav-chevron,
+.hv-sidenav-root.is-collapsed .hv-nav-group-children {
+  display: none;
+}
+.hv-sidenav-root.is-collapsed .hv-nav-item-child {
+  margin-left: 0;
+}
+
+/* ── Hover-expand flyout ─────────────────────────────────────────────
+   position:absolute inside .mod-left-split couldn't win the stacking
+   fight against Obsidian's own core layout CSS (the main content pane
+   kept painting on top regardless of z-index). Instead, on hover main.js
+   moves the .hv-nav element out into this element, appended directly to
+   document.body — same pattern as .hv-terminal-agent-menu below, which
+   is proven to always paint on top since it isn't nested inside
+   Obsidian's own DOM/stacking tree at all. */
+.hv-sidenav-flyout {
+  --color-bg:            #221F25;
+  --color-surf-2:        #2C2830;
+  --color-border:        #4A4550;
+  --color-border-dim:    #3A3540;
+  --color-text:          #D8D3DC;
+  --color-muted:         #8E8898;
+  --color-faint:         #5A5560;
+  --color-accent:        #C17F74;
+  --color-accent-dim:    rgba(193, 127, 116, 0.12);
+  --color-projects:      #7EA8A0;
+  --color-journal:       #B8A86E;
+  --color-ideas:         #9A8FBF;
+  --color-resources:     #A08888;
+  position: fixed;
+  z-index: 1000;
+  width: 200px;
+  box-sizing: border-box;
+  padding: 0.75rem 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 0.8rem;
+  overflow: hidden;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+}
+.hv-sidenav-flyout .hv-nav-section-label,
+.hv-sidenav-flyout .hv-nav-label {
+  display: revert;
+}
+.hv-sidenav-flyout .hv-nav-item {
+  justify-content: flex-start;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* ── Main-area topbar (wraps the root split, sits above its content) ── */
+.hv-main-topbar {
+  --color-bg:         #221F25;
+  --color-surf-2:     #2C2830;
+  --color-text:       #D8D3DC;
+  --color-muted:      #8E8898;
+  --color-faint:      #5A5560;
+  --color-border:     #4A4550;
+  --color-border-dim: #3A3540;
+  --color-accent:     #C17F74;
+  flex: 0 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  height: 48px;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border-dim);
+}
+.hv-topbar-left  { display: flex; align-items: center; gap: 0.75rem; }
+.hv-topbar-right { display: flex; align-items: center; gap: 0.5rem; }
+.hv-main-topbar .hv-topbar-date {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.hv-main-topbar .hv-topbar-week {
+  font-size: 0.72rem;
+  color: var(--color-faint);
+}
+
+.hv-topbar-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.hv-topbar-ghost {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-muted) !important;
+}
+.hv-topbar-ghost:hover {
+  background: var(--color-surf-2);
+  color: var(--color-text) !important;
+}
+.hv-topbar-primary {
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  color: #1a0f0e !important;
+  font-weight: 600;
+}
+.hv-topbar-primary:hover { background: #cf9088; }
+
+.hv-topbar-btn.hv-menu-open {
+  position: relative;
+  z-index: 1001;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  color: var(--color-muted) !important;
+}
+.hv-terminal-agent-menu {
+  position: fixed;
+  z-index: 1000;
+  box-sizing: border-box;
+  padding: 0;
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+  border-left: 1px solid;
+  box-shadow: none;
+  overflow: hidden;
+}
+.hv-terminal-agent-menu-item {
+  display: block;
+  width: 100%;
+  padding: 0.35rem 0.7rem;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: #8E8898;
+  font-size: 0.75rem;
+  font-weight: 400;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.hv-terminal-agent-menu-item:not(:last-child) {
+  border-bottom: 1px solid var(--hv-menu-divider, #3A3540);
+}
+.hv-terminal-agent-menu-item:hover {
+  color: #D8D3DC;
+}

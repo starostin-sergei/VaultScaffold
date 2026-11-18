@@ -1,0 +1,11 @@
+{
+  "featuredProject": { "name": "My Wiki", "folder": "MyWiki", "page": "Projects/My Wiki", "badges": ["Active", "External"] },
+  "vaults": [{ "label": "My Wiki", "path": "MyWiki/Home" }],
+  "launcherWorktrees": [
+    {
+      "project": "Example Project",
+      "base": "C:/path/to/worktrees",
+      "buttons": [{ "label": "Run", "cmd": "gradlew.bat run", "cta": true }, { "label": "Build", "cmd": "gradlew.bat build" }]
+    }
+  ]
+}
